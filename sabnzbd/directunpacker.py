@@ -157,7 +157,7 @@ class DirectUnpacker(threading.Thread):
             if not self.active_instance:
                 break
 
-            char = self.active_instance.stdout.read(1)
+            char = TRANS(self.active_instance.stdout.read(1))
             linebuf += char
 
             if not char:
