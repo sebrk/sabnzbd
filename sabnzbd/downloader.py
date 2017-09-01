@@ -524,8 +524,8 @@ class Downloader(Thread):
                 read, write, error = select.select(readkeys, writekeys, (), 1.0)
 
                 # Why check so often when so few things happened?
-                if self.can_be_slowed and len(readkeys) >= 8 and len(read) <= 2:
-                    time.sleep(0.01)
+                #if self.can_be_slowed and len(readkeys) >= 8 and len(read) <= 2:
+                #    time.sleep(0.01)
 
                 # Need to initialize the check during first 20 seconds
                 if self.can_be_slowed is None or self.can_be_slowed_timer:
