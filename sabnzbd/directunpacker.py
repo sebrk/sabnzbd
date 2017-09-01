@@ -29,7 +29,7 @@ import logging
 import sabnzbd
 import sabnzbd.cfg as cfg
 from sabnzbd.misc import int_conv, clip_path, remove_all, globber, format_time_string, has_win_device
-from sabnzbd.encoding import TRANS, unicoder
+from sabnzbd.encoding import TRANS, unicoder, deunicode
 from sabnzbd.newsunpack import build_command, EXTRACTFROM_RE, rar_volumelist
 from sabnzbd.postproc import prepare_extraction_path
 from sabnzbd.utils.rarfile import RarFile
@@ -157,7 +157,7 @@ class DirectUnpacker(threading.Thread):
             if not self.active_instance:
                 break
 
-            char = TRANS(self.active_instance.stdout.read(1))
+            char = self.active_instance.stdout.read(1)
             linebuf += char
 
             if not char:
@@ -320,7 +320,7 @@ class DirectUnpacker(threading.Thread):
         else:
             # Don't use "-ai" (not needed for non-Windows)
             command = ['%s' % sabnzbd.newsunpack.RAR_COMMAND, action, '-vp', '-idp', '-o+', password_command,
-                       '%s' % rarfile_path, '%s/' % extraction_path]
+                       '%s' % deunicode(rarfile_path), '%s/' % extraction_path]
 
         if cfg.ignore_unrar_dates():
             command.insert(3, '-tsm-')
